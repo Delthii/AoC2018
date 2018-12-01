@@ -4,10 +4,15 @@
 #include <unordered_set>
 #include <vector>
 #include "Helpers.h"
+#include <chrono>
+#include "stopwatch.h"
 using namespace std;
 
 
 int main() {
+	auto sw = Stopwatch();
+	sw.start();
+	
 	string line;
 	
 	bool found = false;
@@ -24,18 +29,23 @@ int main() {
 		myfile.close();
 	}
 	else cout << "Unable to open file";
+	int l = 0;
 	while (!found) {
 		for (auto i : numbers) {
+			l++;
 			res += i;
-			if (m.find(res) == m.end()) m.insert(res);
-			else {
-				found = true;
-				break;
-			}
+			if (!m.insert(res).second) {
+					found = true;
+					break;
+				}
 		}
 	}
 
-	cout << res;
+	cout << res << endl;
+
+	sw.stop();
+
+	cout << "It took " << sw.duration() << " seconds" << endl;
 	system("pause");
 	return 0;
 }
