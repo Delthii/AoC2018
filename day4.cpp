@@ -19,7 +19,7 @@ void partB3(vector<string> input) {
 
 }
 
-int main() {
+int main4() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
