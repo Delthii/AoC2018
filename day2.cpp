@@ -29,13 +29,13 @@ void part2A(vector<string> input) {
 }
 
 void part2B(vector<string> input) {
-	auto words = vector<unordered_set<string>>(input[0].length());
+	auto wordsWithCertainIndexRemoved = vector<unordered_set<string>>(input[0].length());
 	bool found = false;
 	for (auto id : input) {
 		for (string::size_type i = 0; i < id.length(); i++) {
 			string partialString = string(id);
 			partialString.erase(i, 1);
-			if (!words[i].insert(partialString).second) {
+			if (!wordsWithCertainIndexRemoved[i].insert(partialString).second) {
 				cout << partialString << endl;
 				found = true;
 				break;
