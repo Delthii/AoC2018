@@ -4,12 +4,11 @@
 #include <unordered_set>
 #include <vector>
 #include "Helpers.h"
-#include <chrono>
 #include "stopwatch.h"
 using namespace std;
 
 
-int main() {
+int main1() {
 	auto sw = Stopwatch();
 	sw.start();
 	
@@ -17,7 +16,7 @@ int main() {
 	
 	bool found = false;
 	int res = 0;
-	auto m = unordered_set<int>();
+	auto m = unordered_set<int>(150000);
 	auto numbers = vector<int>();
 	ifstream myfile("in.txt");
 	if (myfile.is_open())
@@ -29,19 +28,17 @@ int main() {
 		myfile.close();
 	}
 	else cout << "Unable to open file";
-	int l = 0;
 	while (!found) {
 		for (auto i : numbers) {
-			l++;
 			res += i;
 			if (!m.insert(res).second) {
-					found = true;
-					break;
-				}
+				found = true;
+				break;
+			}
 		}
 	}
 
-	cout << res << endl;
+	cout << res <<endl;
 
 	sw.stop();
 

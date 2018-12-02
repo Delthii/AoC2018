@@ -112,6 +112,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="day1.cpp" />
+    <ClCompile Include="day2.cpp" />
+    <ClCompile Include="day3.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
   </ItemGroup>
