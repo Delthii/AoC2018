@@ -1,4 +1,4 @@
-#include "helpers.h"
+#include "Helpers.h"
 #include <iostream>
 
 using namespace std;
@@ -19,3 +19,4 @@ vector<string> splitString(string s, string delimiter)
 
 	return results;
 }
+

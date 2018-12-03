@@ -12,11 +12,7 @@
 using namespace std;
 
 void partA3(vector<string> input) {
-	auto matrix = new int*[1200];
-	for (int i = 0; i < 1200; i++) {
-		matrix[i] = new int[1200];
-		fill(matrix[i], matrix[i]+1200, 0);
-	}
+	auto m = matrix(1200, 1200, 0);
 
 	int res = 0;
 	int id = 1;
@@ -32,9 +28,9 @@ void partA3(vector<string> input) {
 		ids.insert(id);
 		for (int xi = x; xi < x + xr; xi++) {
 			for (int yi = y; yi < y + yr; yi++) {
-				if (matrix[xi][yi] == 0) matrix[xi][yi] = id;
+				if (m[xi][yi] == 0) m[xi][yi] = id;
 				else {
-					ids.erase(matrix[xi][yi]);
+					ids.erase(m[xi][yi]);
 					ids.erase(id);
 				}
 			}
