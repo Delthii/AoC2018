@@ -12,7 +12,18 @@
 using namespace std;
 
 void partA3(vector<string> input) {
+	bool fabric[1000][1000];
+	for (auto s : input) {
+		auto ss = splitString(s, " ");
+		auto dim = splitString(ss[3], "x");
+		auto pos = splitString(ss[2], ",");
+		auto x = stoi(pos[0]);
+		auto y = stoi(pos[1]);
+		auto xr = stoi(dim[0]);
+		auto yr = stoi(dim[1]);
 
+
+	}
 }
 
 void partB3(vector<string> input) {

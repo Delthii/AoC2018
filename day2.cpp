@@ -66,4 +66,5 @@ int main2() {
 	sw.stop();
 	cout << sw.duration() << " seconds" << endl;
 	system("pause");
+	return 0;
 }
