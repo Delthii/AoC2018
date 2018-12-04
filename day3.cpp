@@ -46,7 +46,7 @@ void partB3(vector<string> input) {
 
 }
 
-int main() {
+int main3() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
