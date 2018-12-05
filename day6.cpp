@@ -37,6 +37,7 @@ int main() {
 	else cout << "Unable to open file";
 
 	partA6(input);
+
 	//partB6(input);
 	system("pause");
 	return 0;
