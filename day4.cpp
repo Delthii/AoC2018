@@ -108,7 +108,7 @@ void partB4(vector<string> input) {
 	cout << guard*min << endl;
 }
 
-int main() {
+int main4() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
