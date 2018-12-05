@@ -36,6 +36,7 @@ void partB5(vector<string> input) {
 	string in = input[0];
 	string temp = string(in);
 	int m = 100000;
+
 	for (char c = 'a'; c <= 'z'; c++) {
 		in = string(temp);
 		in.erase(remove(in.begin(), in.end(), c), in.end());
