@@ -13,44 +13,58 @@ using namespace std;
 
 
 void partA6(vector<string> input) {
-	auto m = matrix(3000, 3000, -1);
 	auto co = unordered_map<int,pair<int, int>>();
 	int i = 0;
+	auto occ = unordered_map<int, int>();
 	for (auto s : input) {
 		auto ss = splitString(s, ", ");
 		int x = stoi(ss[0]), y = stoi(ss[1]);
 		co[i] = pair<int, int>(x, y);
-		m[x][y] = i;
 		i++;
 	}
 	
-	auto finit = unordered_set<int>();
-	auto occ = unordered_map<int, int>();
-	for (int layer = 1; layer < 400; layer++) {
-		for (auto p : co) {
-			bool changed = false;
-			for (int xx = -layer; xx <= layer; xx++) {
-				for (int yy = -layer; yy <= layer; yy++) {
-					int x = p.second.first;
-					int y = p.second.second;
-					if (m[x + xx+1000][y + yy+1000] < 0) {
-						m[x + xx+1000][y + yy+1000] = p.first;
-						changed = true;
-						occ[p.first]++;
-					}						
+
+	
+	for (int i = -600; i < 700; i++) {
+		for (int j = -600; j < 700; j++) {
+			unordered_map<int, int> distance;
+			for (auto c : co) {
+				int m = abs(c.second.first - i) + abs(c.second.second - j);
+				distance[c.first] = m;
+			}
+			int minc = -1;
+			int mindis = 1000000;
+			unordered_set<int> candidates;
+			for (auto d : distance) {
+				if (d.second < mindis) {
+					mindis = d.second;
+					minc = d.first;
+					candidates.clear();
+					candidates.insert(minc);
+				}
+				else if (d.second == mindis) {
+					candidates.insert(d.first);
 				}
 			}
-			if (!changed) { 
-				finit.insert(p.first);
+			if (candidates.size() == 1) {
+				occ[*candidates.begin()]++;
 			}
 			else {
-				cout << p.first << endl;
+				cout << candidates.size();
 			}
 		}
+		
 	}
-	
-
+	vector<int> l;
+	for (auto c : occ) {
+		l.push_back(c.second);
+	}
+	sort(l.begin(), l.end());
+	for (auto e : l) {
+		cout << e << endl;
+	}
 }
+
 
 
 
