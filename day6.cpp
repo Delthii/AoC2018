@@ -25,8 +25,8 @@ void partA6(vector<string> input) {
 	
 
 	
-	for (int i = -900; i < 1000; i++) {
-		for (int j = -900; j < 1000; j++) {
+	for (int i = 0; i < 1000; i++) {
+		for (int j = 0; j < 1000; j++) {
 			unordered_map<int, int> distance;
 			for (auto c : co) {
 				int m = abs(c.second.first - i) + abs(c.second.second - j);
@@ -93,7 +93,7 @@ void partB6(vector<string> input) {
 	cout << sum << endl;
 }
 
-int main() {
+int main6() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
