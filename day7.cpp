@@ -107,7 +107,7 @@ void partB7(vector<string> input) {
 	cout << --ticks << endl;
 }
 
-int main() {
+int main7() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
