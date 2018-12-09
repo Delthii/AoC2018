@@ -53,7 +53,7 @@ void partB5(vector<string> input) {
 	cout << m << endl;
 }
 
-int main5() {
+int main() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
@@ -66,9 +66,12 @@ int main5() {
 		myfile.close();
 	}
 	else cout << "Unable to open file";
-
-	partA5(input);
+	auto sw = Stopwatch();
+	//partA5(input);
+	sw.start();
 	partB5(input);
+	sw.stop();
+	cout << sw.duration() << endl;
 	system("pause");
 	return 0;
 }

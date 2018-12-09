@@ -110,7 +110,7 @@ void partB8(vector<string> input) {
 	cout << p.first << endl;
 }
 
-int main() {
+int main8() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
