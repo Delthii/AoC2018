@@ -53,7 +53,7 @@ void partB5(vector<string> input) {
 	cout << m << endl;
 }
 
-int main() {
+int main5() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
