@@ -35,8 +35,8 @@ void partA10(vector<string> input) {
 	int time = 0;
 	while (true) {
 		for (int i = 0; i < points.size(); i++) {
-			points[i].first += vels[i].first * 1;
-			points[i].second += vels[i].second * 1;
+			points[i].first += vels[i].first;
+			points[i].second += vels[i].second;
 		}
 		time++;
 		int max = -1110110, min = 1101010;
@@ -75,7 +75,7 @@ void partB10(vector<string> input) {
 	
 }
 
-int main() {
+int main10() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
