@@ -57,7 +57,7 @@ long long rec(int x, int y) {
 }
 
 
-int main() {
+int main12() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
