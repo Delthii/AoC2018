@@ -229,7 +229,7 @@ void partA13(vector<string> input) {
 	cout << " " << endl;
 }
 
-int main() {
+int main13() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;
