@@ -95,7 +95,7 @@ void partA18(vector<string> input) {
 void partB18(vector<string> input) {
 }
 
-int main() {
+int main18() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> input;

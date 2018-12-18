@@ -10,6 +10,8 @@
 #include "Helpers.h"
 #include "Stopwatch.h"
 #include <cmath>
+#include <chrono>
+#include <thread>
 using namespace std;
 
 /*
@@ -17,66 +19,67 @@ y=1230, x=524..528
 y=977, x=460..462
 y=1757, x=566..584
 */
-bool stream(char**, int, int);
+void stream(char**, int, int);
 
 int maxy = 0;
-vector<pair<int, int>> overflows;
+
+void stillWater(char ** map, int x, int y, int xl, int xr) {
+	for (int i = x; i > xl; i--) {
+		map[y][i] = '~';
+	}
+
+	for (int i = x; i < xr; i++) {
+		map[y][i] = '~';
+	}
+}
+
 int left(char ** map, int x, int y){
+	int start = x;
 	x--;
-	while (map[y][x] == '.') {
+	while (map[y][x] == '.' || map[y][x] == 'w') {
 		map[y][x] = 'w';
 		if (map[y + 1][x] == '.') {
-			return x;
+			stream(map, x, y+1);
+			return 0;
 		}
 		x--;
 	}
-	return false;
+	return x;
 }
 
 int right(char ** map, int x, int y){
-	x++;
-	while (map[y][x] == '.') {
+	int start = x;
+	while (map[y][x] == '.' || map[y][x] == 'w') {
 		map[y][x] = 'w';
 		if (map[y + 1][x] == '.') {
-			return x;
+			stream(map, x, y+1);
+			return 0;
 		}
 		x++;
 	}
-	return false;
+	return x;
 }
 
-bool stream(char** map, int x, int y) {
-	while (true) {
-		if (map[y][x] == 'w') return false;
-		while (map[y][x] == '.') {
-			if (y > maxy) return false;
-			map[y++][x] = 'w';
+void stream(char** map, int x, int y) {
+	while (map[y][x] == '.') {
+		if (y > maxy) return;
+		if (map[y][x] == 'w' || map[y][x] == '~') {
+			return;
+		}
+		map[y++][x] = 'w';
+	}
+	if (map[y][x] == 'w') return;
+	y--;
+	int r = 1, l = 1;
+	while (r && l) {
+		r = right(map, x, y);
+		l = left(map, x, y);
+		if (r && l) {
+			stillWater(map, x, y, l, r);
 		}
 		y--;
-		int r = false;
-		int l = false;
-		while (!r && !l) {
-			r = right(map, x, y);
-			l = left(map, x, y);
-			int temp = x;
-			if (!r && !l) {
-				while (map[y][temp] == 'w') map[y][temp++] = '~';
-				temp = x - 1;
-				while (map[y][temp] == 'w') map[y][temp--] = '~';
-			}
-			y--;
-		}
-		if (r) overflows.push_back(pair<int, int>(r, y+2));
-		if (l) overflows.push_back(pair<int, int>(l, y+2));
-		break;
 	}
-	pair<int, int> p;
-	while (overflows.size() > 0) {
-		p = overflows.back();
-		overflows.pop_back();
-
-		stream(map, p.first, p.second);
-	}
+	
 }
 
 void part17A(vector<string> input) {
@@ -110,13 +113,23 @@ void part17A(vector<string> input) {
 		}
 	}
 	stream(m, 500, 0);
+	int water = 0;
+	int still = 0;
 	for (int y = miny; y <= maxy+2; y++) {
 		for (int x = minx-2;  x <= maxx +2 ; x++) {
+			if (m[y][x] == '.') {
+				cout << ' ';
+				continue;
+			}
+			if (m[y][x] == 'w') water++;
+			if (m[y][x] == '~') still++;
 			cout << m[y][x];
 		}
-		for (int i = 0; i < 10000000; i++);
+		this_thread::sleep_for(std::chrono::milliseconds(100));
 		cout << endl;
 	}
+	cout << still + water << endl;
+	cout << still << endl;
 }
 
 void part17B(vector<string> input) {
@@ -124,7 +137,7 @@ void part17B(vector<string> input) {
 
 }
 
-int main17() {
+int main() {
 	string line;
 	ifstream myfile("in.txt");
 	vector<string> in;
