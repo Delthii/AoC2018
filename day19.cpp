@@ -171,7 +171,7 @@ void part16B(vector<string> input) {
 		}
 	}
 }
- int main() {
+ int main19() {
 	string line;
 	ifstream myfile("in.txt");
 
