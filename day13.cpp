@@ -26,7 +26,6 @@ struct Cart {
 	int intersection;
 };
 
-
 void moveCarts(vector<Cart> &carts, bool &crash) {
 	sort(carts.begin(), carts.end(),
 		[](const Cart& a, const Cart &b) {
@@ -114,13 +113,90 @@ void moveCarts(vector<Cart> &carts) {
 	}
 }
 
+void parse13(std::vector<std::string> &input, int  track[151][151], std::vector<Cart> &carts);
+
+void update(std::vector<Cart> &carts, int  track[151][151]);
+
 void partA13(vector<string> input) {
 	
 	vector<Cart> carts;
 	int track[151][151];
 	memset(track, 0, sizeof(track));
+	parse13(input, track, carts);
+	while (carts.size() > 1) {
+		update(carts, track);
+		moveCarts(carts);
+	}
+	cout << carts[0].y << "," << carts[0].x << endl;
+	cout << " " << endl;
+}
+
+void update(std::vector<Cart> &carts, int  track[151][151])
+{
+	for (auto &c : carts) {
+		int x = c.x;
+		int y = c.y;
+		if (track[x][y] == 2) {
+			if (c.intersection == RIGHT) {
+				switch (c.dir)
+				{
+				case UP:
+					c.dir = RIGHT;
+					break;
+				case DOWN:
+					c.dir = LEFT;
+					break;
+				case LEFT:
+					c.dir = UP;
+					break;
+				case RIGHT:
+					c.dir = DOWN;
+					break;
+				default:
+					break;
+				}
+			}
+			else if (c.intersection == LEFT) {
+				switch (c.dir)
+				{
+				case UP:
+					c.dir = LEFT;
+					break;
+				case DOWN:
+					c.dir = RIGHT;
+					break;
+				case LEFT:
+					c.dir = DOWN;
+					break;
+				case RIGHT:
+					c.dir = UP;
+					break;
+				default:
+					break;
+				}
+			}
+			c.intersection += 1;
+			c.intersection %= 3;
+		}
+		else if (track[x][y] == 3) {
+			if (c.dir == UP) c.dir = RIGHT;
+			else if (c.dir == LEFT) c.dir = DOWN;
+			else if (c.dir == RIGHT) c.dir = UP;
+			else if (c.dir == DOWN) c.dir = LEFT;
+		}
+		else if (track[x][y] == 4) {
+			if (c.dir == RIGHT) c.dir = DOWN;
+			else if (c.dir == UP) c.dir = LEFT;
+			else if (c.dir == LEFT) c.dir = UP;
+			else if (c.dir == DOWN) c.dir = RIGHT;
+		}
+	}
+}
+
+void parse13(std::vector<std::string> &input, int  track[151][151], std::vector<Cart> &carts)
+{
 	for (int i = 0; i < input.size(); i++) {
-		for (int j = 0; j < input[i].size(); j++) {		
+		for (int j = 0; j < input[i].size(); j++) {
 			switch (input[i][j])
 			{
 			case '+':
@@ -164,69 +240,6 @@ void partA13(vector<string> input) {
 			}
 		}
 	}
-	while (carts.size() > 1) {
-		for (auto &c : carts) {
-			int x = c.x;
-			int y = c.y;
-			if (track[x][y] == 2) {
-				if (c.intersection == RIGHT) {
-					switch (c.dir)
-					{		
-					case UP: 
-						c.dir = RIGHT;
-						break;
-					case DOWN:
-						c.dir = LEFT;
-						break;
-					case LEFT:
-						c.dir = UP;
-						break;
-					case RIGHT:
-						c.dir = DOWN;
-						break;
-					default:
-						break;
-					}
-				}
-				else if (c.intersection == LEFT) {
-					switch (c.dir)
-					{
-					case UP:
-						c.dir = LEFT;
-						break;
-					case DOWN:
-						c.dir = RIGHT;
-						break;
-					case LEFT:
-						c.dir = DOWN;
-						break;
-					case RIGHT:
-						c.dir = UP;
-						break;
-					default:
-						break;
-					}
-				}
-				c.intersection += 1;
-				c.intersection %= 3;
-			}
-			else if (track[x][y] == 3){
-				if (c.dir == UP) c.dir = RIGHT;
-				else if (c.dir == LEFT) c.dir = DOWN;
-				else if (c.dir == RIGHT) c.dir = UP;
-				else if (c.dir == DOWN) c.dir = LEFT;
-			}
-			else if (track[x][y] == 4) {
-				if (c.dir == RIGHT) c.dir = DOWN;
-				else if (c.dir == UP) c.dir = LEFT;
-				else if (c.dir == LEFT) c.dir = UP;
-				else if (c.dir == DOWN) c.dir = RIGHT;
-			}
-		}
-		moveCarts(carts);
-	}
-	cout << carts[0].y << "," << carts[0].x << endl;
-	cout << " " << endl;
 }
 
 int main13() {
