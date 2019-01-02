@@ -15,32 +15,8 @@
 #include <stack>
 using namespace std;
 
-void movePath(vector<vector<vector<char>>> &graph, int &x, int &y, string path) {
-	for (auto c : path) {
-		bool in = false;
-		for (auto &C : graph[x][y]) {
-			if (C == c) {
-				in = true;
-				break;
-			}
-		}
-		if(!in) graph[x][y].push_back(c);
-		if (graph[x][y].size() > 4) cout << "ERROR TOMANY NEIGHBOURS" << endl;
-		if (c == 'W') { x--; c = 'E'; }
-		else if (c == 'E') { x++; c = 'W'; }
-		else if (c == 'N') { y--; c = 'S'; }
-		else if (c == 'S') { y++; c = 'N'; }
-		else cout << "Something went wrong  PATH: "<< path << endl;
-		in = false;
-		for (auto &C : graph[x][y]) {
-			if (C == c) {
-				in = true;
-				break;
-			}
-		}
-		if(!in) graph[x][y].push_back(c);
-		if (graph[x][y].size() > 4) cout << "ERROR TOMANY NEIGHBOURS" << endl;
-	}
+int H(int i1, int i2) {
+	return i1*256*128 + i2;
 }
 
 void movePath(vector<vector<vector<char>>> &graph, int &x, int &y, char c) {
@@ -73,9 +49,9 @@ auto BFS(vector<vector<vector<char>>> &graph, int x, int y) {
 	unordered_set<int> visisted;
 	queue<pair<int, int>> q;
 	q.push(pair<int, int>(x, y));
-	visisted.insert(x * 7 + y * 11);
+	visisted.insert(H(x,y));
 	unordered_map<int, int> distance;
-	distance[x * 7 + y * 11] = 0;
+	distance[H(x,y)] = 0;
 	while (!q.empty()) {	
 		auto n = q.front(); q.pop();
 		for (auto &c : graph[n.first][n.second]) {
@@ -84,16 +60,16 @@ auto BFS(vector<vector<vector<char>>> &graph, int x, int y) {
 			else if (c == 'E') p = pair<int, int>(n.first + 1, n.second);
 			else if (c == 'S') p = pair<int, int>(n.first, n.second+1);
 			else if (c == 'N') p = pair<int, int>(n.first, n.second-1);
-			if (visisted.find(p.first * 7 + p.second * 11) == visisted.end()) {
+			if (visisted.find(H(p.first, p.second)) == visisted.end()) {
 				q.push(p);
-				visisted.insert(p.first * 7 + p.second * 11);
-				distance[p.first * 7 + p.second * 11] = distance[n.first * 7 + n.second * 11] + 1;
+				visisted.insert(H(p.first, p.second));
+				distance[H(p.first, p.second)] = distance[H(n.first, n.second)] + 1;
 			}
 		}
 	}
 	return distance;
 }
-//^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$
+
 void parse(string in, vector<vector<vector<char>>> &graph, string path, int x, int y) {
 	auto coords = stack<pair<int, int>>();
 	for (int i = 0; i < in.size(); i++) {
@@ -113,9 +89,6 @@ void parse(string in, vector<vector<vector<char>>> &graph, string path, int x, i
 	}
 }
 
-
-
-
 void part20A(vector<string> input) {
 	auto in = input[0].substr(1, input[0].size()-2);
 	auto graph = vector<vector<vector<char>>>(1000, vector<vector<char>>(1000,vector<char>()));
@@ -123,10 +96,13 @@ void part20A(vector<string> input) {
 	parse(in, graph, "", 500,500);
 	auto distance = BFS(graph, 500, 500);
 	int max = 0;
+	int count = 0;
 	for (auto d : distance) {
 		if (d.second > max) max = d.second;
+		if (d.second >= 1000) count++;
 	}
 	cout << max << endl;
+	cout << count << endl;
 }
 
 void part20B(vector<string> input) {
